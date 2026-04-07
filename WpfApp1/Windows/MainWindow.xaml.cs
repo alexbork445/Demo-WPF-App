@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.Data;
+using WpfApp1.Windows;
 
 namespace WpfApp1
 {
@@ -16,8 +18,15 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private PaulDbBorkAsContext _context = new();
+
         public MainWindow()
         {
+            Authorization authorization = new Authorization(_context);
+            if(authorization.ShowDialog() != true)
+            {
+                Application.Current.Shutdown();
+            }
             InitializeComponent();
         }
     }
