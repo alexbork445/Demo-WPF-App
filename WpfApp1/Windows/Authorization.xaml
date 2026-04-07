@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Windows"
         mc:Ignorable="d"
-        Title="Authorization" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Авторизация" Height="250" Width="300">
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Margin=" 5">
+            <TextBox Width="120" Name="BoxLogin" Text="94d5ous@gmail.com"/>
+            <TextBlock Text="Логин" Margin="5 0 0 0"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin=" 5">
+            <TextBox Width="120" Name="BoxPassword" Text="uzWC67"/>
+            <TextBlock Text="Пароль" Margin="5 0 0 0"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin=" 5">
+            <Button Content=" Войти " Click="Button_authorization"/>
+            <Button Content="Войти как гость" Click="Button_authorization_gouest"
+                    Margin=" 5 0 0 0"/>
+        </StackPanel>
+    </StackPanel>
 </Window>
