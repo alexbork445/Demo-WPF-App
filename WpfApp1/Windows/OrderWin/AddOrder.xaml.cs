@@ -30,27 +30,27 @@ namespace WpfApp1.Windows.OrderWin
         }
         private void Button_add(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(BoxRentalQuantity.Text) &&
-                !string.IsNullOrWhiteSpace(BoxDateOrder.Text) &&
-                !string.IsNullOrWhiteSpace(BoxArc.Text) &&
-                !string.IsNullOrWhiteSpace(BoxDelivary.Text))
+            if (!string.IsNullOrWhiteSpace(BoxRentalQuantity.Text.Trim()) &&
+                !string.IsNullOrWhiteSpace(BoxDateOrder.Text.Trim()) &&
+                !string.IsNullOrWhiteSpace(BoxArc.Text.Trim()) &&
+                !string.IsNullOrWhiteSpace(BoxDelivary.Text.Trim()))
             {
                 try
                 {
-                    //тут идёт присвоение id как как в таблице я забыл установить автоикремент для поля ID,
-                    //поэтому я делаю это руками (так делать не надо)
+                    
                     Order order = new Order()
                     {
 
-                        RentalStartDate = DateTime.Parse(BoxDateOrder.Text),
-                        RentalQuantity = int.Parse(BoxRentalQuantity.Text),
-                        ReceiptCode = decimal.Parse(BoxArc.Text),
-                        PickupPoint = _context.PickupPoints.FirstOrDefault(q => q.Address == BoxDelivary.Text),
+                        RentalStartDate = DateTime.Parse(BoxDateOrder.Text.Trim()),
+                        RentalQuantity = int.Parse(BoxRentalQuantity.Text.Trim()),
+                        ReceiptCode = decimal.Parse(BoxArc.Text.Trim()),
+                        PickupPoint = _context.PickupPoints.FirstOrDefault(q => q.Address == BoxDelivary.Text.Trim()),
                         Status = BoxStatus.SelectedItem as OrderStatus
                     };
                     _context.Orders.Add(order);
                     _context.SaveChanges();
                     DialogResult = true;
+                    return;
                 }
                 catch (Exception ex)
                 {
@@ -62,6 +62,7 @@ namespace WpfApp1.Windows.OrderWin
         private void Button_exit(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+            return;
         }
     }
 }

@@ -23,36 +23,37 @@ namespace WpfApp1.Windows.OrderWin
     public partial class EditOrder : Window
     {
         private PaulDbBorkAsContext _context;
-        private Order order;
+        private Order _order;
         public EditOrder(Order order, PaulDbBorkAsContext context)
         {
             InitializeComponent();
             _context = context;
             PanelOrder.DataContext = order;
-            this.order = order;
+            _order = order;
             BoxStatus.ItemsSource = context.OrderStatuses.ToList();
             BoxStatus.SelectedItem = order.Status;
         }
         private void Button_save(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(BoxRentalQuantity.Text) &&
-                !string.IsNullOrWhiteSpace(BoxDateOrder.Text) &&
-                !string.IsNullOrWhiteSpace(BoxArc.Text) &&
-                !string.IsNullOrWhiteSpace(BoxDelivary.Text))
+            if (!string.IsNullOrWhiteSpace(BoxRentalQuantity.Text.Trim()) &&
+                !string.IsNullOrWhiteSpace(BoxDateOrder.Text.Trim()) &&
+                !string.IsNullOrWhiteSpace(BoxArc.Text.Trim()) &&
+                !string.IsNullOrWhiteSpace(BoxDelivary.Text.Trim()))
             {
                 try
                 {
 
-                    order.RentalStartDate = DateTime.Parse(BoxDateOrder.Text);
-                    order.RentalQuantity = int.Parse(BoxRentalQuantity.Text);
-                    order.ReceiptCode = decimal.Parse(BoxArc.Text);
-                    order.PickupPoint = _context.PickupPoints.FirstOrDefault(q => q.Address == BoxDelivary.Text);
-                    order.Status = BoxStatus.SelectedItem as OrderStatus;
+                    _order.RentalStartDate = DateTime.Parse(BoxDateOrder.Text.Trim());
+                    _order.RentalQuantity = int.Parse(BoxRentalQuantity.Text.Trim());
+                    _order.ReceiptCode = decimal.Parse(BoxArc.Text.Trim());
+                    _order.PickupPoint = _context.PickupPoints.FirstOrDefault(q => q.Address == BoxDelivary.Text.Trim());
+                    _order.Status = BoxStatus.SelectedItem as OrderStatus;
 
-                    _context.Entry(order).State = EntityState.Modified;
+                    _context.Entry(_order).State = EntityState.Modified;
                     _context.SaveChanges();
 
                     DialogResult = true;
+                    return;
                 }
                 catch (Exception ex)
                 {
@@ -64,6 +65,7 @@ namespace WpfApp1.Windows.OrderWin
         private void Button_exit(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+            return;
         }
     }
 }

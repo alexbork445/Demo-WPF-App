@@ -27,7 +27,7 @@
                      Margin="4">
                 <TextBox Name="BoxDelivary" 
                      Width="120"
-                     Text="{Binding PickupPoint.Adress}"/>
+                     Text="{Binding PickupPoint.Address}"/>
                 <TextBlock Text="Пункс выдачи" 
                      Margin="5 0 0 0"/>
             </StackPanel>
