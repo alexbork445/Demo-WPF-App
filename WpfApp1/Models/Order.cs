@@ -11,15 +11,15 @@ public partial class Order
 
     public int EquipmentId { get; set; }
 
-    public int RentalQuantity { get; set; }
+    public int RentalQuantity { get; set; }//
 
-    public DateTime RentalStartDate { get; set; }
+    public DateTime RentalStartDate { get; set; }//
 
     public int PickupPointId { get; set; }
 
     public int ClientUserId { get; set; }
 
-    public decimal ReceiptCode { get; set; }
+    public decimal ReceiptCode { get; set; }//
 
     public int StatusId { get; set; }
 
@@ -27,7 +27,7 @@ public partial class Order
 
     public virtual Equipment Equipment { get; set; } = null!;
 
-    public virtual PickupPoint PickupPoint { get; set; } = null!;
+    public virtual PickupPoint PickupPoint { get; set; } = null!;//
 
-    public virtual OrderStatus Status { get; set; } = null!;
+    public virtual OrderStatus Status { get; set; } = null!;//
 }
