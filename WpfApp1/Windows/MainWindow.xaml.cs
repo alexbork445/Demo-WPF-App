@@ -65,6 +65,13 @@ namespace WpfApp1
             }
         }
 
+        private void Button_exit_user(object sender, RoutedEventArgs e)
+        {
+            Authorization authorization = new Authorization(_context);
+            authorization.Show();
+            this.Close();
+        }
+
         public void DrawSuppliers()
         {
             List<Supplier> suppliers = new List<Supplier>()
