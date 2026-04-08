@@ -125,11 +125,11 @@ namespace WpfApp1
 
         private void Button_request(object sender, RoutedEventArgs e)
         {
-            //OrderWin request = new OrderWin(currentUser);
-            //if (request.ShowDialog() == true)
-            //{
+            OrderWin request = new OrderWin(_context);
+            if (request.ShowDialog() == true)
+            {
 
-            //}
+            }
         }
 
         private void BoxFind_TextChanged(object sender, TextChangedEventArgs e)
