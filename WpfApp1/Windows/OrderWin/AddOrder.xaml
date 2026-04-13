@@ -39,9 +39,9 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                     Margin="4">
-                <TextBox Name="BoxRentalQuantity" 
+                <TextBox Name="BoxDateDelivery" 
                      Width="120"/>
-                <TextBlock Text="кол-во помещений" 
+                <TextBlock Text="дата выдачи" 
                      Margin="5 0 0 0"/>
             </StackPanel>
         </StackPanel>

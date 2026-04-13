@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,9 +23,9 @@ namespace WpfApp1.Windows.OrderWin
     /// </summary>
     public partial class EditOrder : Window
     {
-        private PaulDbBorkAsContext _context;
+        private PaulDbContext _context;
         private Order _order;
-        public EditOrder(Order order, PaulDbBorkAsContext context)
+        public EditOrder(Order order, PaulDbContext context)
         {
             InitializeComponent();
             _context = context;
@@ -35,7 +36,7 @@ namespace WpfApp1.Windows.OrderWin
         }
         private void Button_save(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(BoxRentalQuantity.Text.Trim()) &&
+            if (!string.IsNullOrWhiteSpace(BoxDateDelivery.Text.Trim()) &&
                 !string.IsNullOrWhiteSpace(BoxDateOrder.Text.Trim()) &&
                 !string.IsNullOrWhiteSpace(BoxArc.Text.Trim()) &&
                 !string.IsNullOrWhiteSpace(BoxDelivary.Text.Trim()))
@@ -43,10 +44,10 @@ namespace WpfApp1.Windows.OrderWin
                 try
                 {
 
-                    _order.RentalStartDate = DateTime.Parse(BoxDateOrder.Text.Trim());
-                    _order.RentalQuantity = int.Parse(BoxRentalQuantity.Text.Trim());
-                    _order.ReceiptCode = decimal.Parse(BoxArc.Text.Trim());
-                    _order.PickupPoint = _context.PickupPoints.FirstOrDefault(q => q.Address == BoxDelivary.Text.Trim());
+                    _order.OrderDate = DateOnly.Parse(BoxDateOrder.Text.Trim());
+                    _order.DeliveryDate = DateOnly.Parse(BoxDateDelivery.Text.Trim());
+                    _order.PickupCode = int.Parse(BoxArc.Text.Trim());
+                    _order.Address = _context.PickupPoints.FirstOrDefault(q => q.Address == BoxDelivary.Text.Trim());
                     _order.Status = BoxStatus.SelectedItem as OrderStatus;
 
                     _context.Entry(_order).State = EntityState.Modified;
