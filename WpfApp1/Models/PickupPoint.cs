@@ -5,7 +5,7 @@ namespace WpfApp1.Models;
 
 public partial class PickupPoint
 {
-    public int PointId { get; set; }
+    public int AddressId { get; set; }
 
     public string Address { get; set; } = null!;
 
