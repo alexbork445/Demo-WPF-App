@@ -57,6 +57,8 @@ namespace WpfApp1
                 if (Cookies.LoggedUser.Role.RoleName == "Администратор")
                 {
                     BoxProduct.MouseDoubleClick += BoxProduct_MouseDoubleClick;
+                    PanelFind.Visibility = Visibility.Visible;
+                    PanelBottomButton.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -67,9 +69,9 @@ namespace WpfApp1
 
         private void Button_exit_user(object sender, RoutedEventArgs e)
         {
-            Authorization authorization = new Authorization(_context);
-            authorization.Show();
+            MainWindow authorization = new MainWindow();            
             this.Close();
+            authorization.ShowDialog();
         }
 
         public void DrawSuppliers()
@@ -166,7 +168,6 @@ namespace WpfApp1
         {
             products = _context.Equipment.Include(q => q.Supplier)
                 .Include(q => q.Manufacturer)
-                .Include(q => q.Name)
                 .Include(q => q.Type)
                 .ToList();
 
