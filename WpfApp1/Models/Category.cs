@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace WpfApp1.Models;
 
-public partial class Supplier
+public partial class Category
 {
-    public int SupplierId { get; set; }
+    public int CategoryId { get; set; }
 
-    public string SupplierName { get; set; } = null!;
+    public string CategoryName { get; set; } = null!;
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }
