@@ -11,7 +11,7 @@
             <StackPanel Orientation="Horizontal"
             Margin="4">
                 <TextBox Name="BoxArc"
-                     Text="{Binding ReceiptCode}"
+                     Text="{Binding PickupCode}"
                      Width="120"/>
                 <TextBlock Text="Ариткул" 
                      Margin="5 0 0 0"/>
@@ -27,7 +27,7 @@
                      Margin="4">
                 <TextBox Name="BoxDelivary" 
                      Width="120"
-                     Text="{Binding PickupPoint.Address}"/>
+                     Text="{Binding Address.Address}"/>
                 <TextBlock Text="Пункс выдачи" 
                      Margin="5 0 0 0"/>
             </StackPanel>
@@ -35,16 +35,16 @@
                      Margin="4">
                 <TextBox Name="BoxDateOrder" 
                      Width="120"
-                     Text="{Binding RentalStartDate, StringFormat='dd.MM.yyyy'}"/>
+                     Text="{Binding OrderDate, StringFormat='dd.MM.yyyy'}"/>
                 <TextBlock Text="дата заказа" 
                      Margin="5 0 0 0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                      Margin="4">
-                <TextBox Name="BoxRentalQuantity" 
+                <TextBox Name="BoxDateDelivery" 
                      Width="120"
-                     Text="{Binding RentalQuantity}"/>
-                <TextBlock Text="кол-во помещений" 
+                     Text="{Binding DeliveryDate, StringFormat='dd.MM.yyyy'}"/>
+                <TextBlock Text="дата выдачи" 
                      Margin="5 0 0 0"/>
             </StackPanel>
         </StackPanel>

@@ -37,9 +37,9 @@
                                 Margin="5"
                                 Width="640">
                                 <StackPanel>
-                                    <TextBlock Text="{Binding ReceiptCode}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding PickupCode}" FontWeight="Bold"/>
                                     <TextBlock Text="{Binding OrderStatus.StatusName}"/>
-                                    <TextBlock Text="{Binding PickupPoint.Adress}" />
+                                    <TextBlock Text="{Binding Adress.Adress}" />
                                     <TextBlock Text="{Binding OrderDate, StringFormat='dd.MM.yyyy'}"/>
                                 </StackPanel>
                             </Border>

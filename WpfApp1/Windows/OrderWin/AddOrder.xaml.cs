@@ -21,8 +21,8 @@ namespace WpfApp1.Windows.OrderWin
     /// </summary>
     public partial class AddOrder : Window
     {
-        private PaulDbBorkAsContext _context;
-        public AddOrder(PaulDbBorkAsContext context)
+        private PaulDbContext _context;
+        public AddOrder(PaulDbContext context)
         {
             InitializeComponent();
             _context = context;
@@ -30,7 +30,7 @@ namespace WpfApp1.Windows.OrderWin
         }
         private void Button_add(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(BoxRentalQuantity.Text.Trim()) &&
+            if (!string.IsNullOrWhiteSpace(BoxDateDelivery.Text.Trim()) &&
                 !string.IsNullOrWhiteSpace(BoxDateOrder.Text.Trim()) &&
                 !string.IsNullOrWhiteSpace(BoxArc.Text.Trim()) &&
                 !string.IsNullOrWhiteSpace(BoxDelivary.Text.Trim()))
@@ -41,10 +41,10 @@ namespace WpfApp1.Windows.OrderWin
                     Order order = new Order()
                     {
 
-                        RentalStartDate = DateTime.Parse(BoxDateOrder.Text.Trim()),
-                        RentalQuantity = int.Parse(BoxRentalQuantity.Text.Trim()),
-                        ReceiptCode = decimal.Parse(BoxArc.Text.Trim()),
-                        PickupPoint = _context.PickupPoints.FirstOrDefault(q => q.Address == BoxDelivary.Text.Trim()),
+                        OrderDate = DateOnly.Parse(BoxDateOrder.Text.Trim()),
+                        DeliveryDate = DateOnly.Parse(BoxDateDelivery.Text.Trim()),
+                        PickupCode = int.Parse(BoxArc.Text.Trim()),
+                        Address = _context.PickupPoints.FirstOrDefault(q => q.Address == BoxDelivary.Text.Trim()),
                         Status = BoxStatus.SelectedItem as OrderStatus
                     };
                     _context.Orders.Add(order);
