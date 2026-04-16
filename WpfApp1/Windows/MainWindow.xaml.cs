@@ -66,6 +66,7 @@ namespace WpfApp1
                     PanelBottomAdmin.Visibility = Visibility.Collapsed;
                 }
             }
+            Sort();
         }
 
         private void Button_exit_user(object sender, RoutedEventArgs e)
