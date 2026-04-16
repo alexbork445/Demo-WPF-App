@@ -22,18 +22,18 @@ namespace WpfApp1.Windows.OrderWin
     /// </summary>
     public partial class OrderWin : Window
     {
-        private PaulDbBorkAsContext _context;
+        private ExampleDbContext _context;
 
-        public OrderWin(PaulDbBorkAsContext context)
+        public OrderWin(ExampleDbContext context)
         {
             InitializeComponent();
             _context = context;
 
-            List<Order> orders = _context.Orders
+            List<Order> orders = _context.Order
                 .Include(q => q.PickupPoint)
-                .Include(q => q.Status)
+                .Include(q => q.OrderStatus)
                 .ToList();
-            BoxOrder.ItemsSource = _context.Orders.ToList();
+            BoxOrder.ItemsSource = _context.Order.ToList();
 
             if (Cookies.LoggedUser.Role.RoleName == "Администратор")
             {
@@ -45,6 +45,7 @@ namespace WpfApp1.Windows.OrderWin
                 PanelBottomButton.Visibility = Visibility.Collapsed;
             }
         }
+
         private void BoxProduct_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Order order = BoxOrder.SelectedItem as Order;
@@ -54,33 +55,35 @@ namespace WpfApp1.Windows.OrderWin
 
                 if (edit.ShowDialog() == true)
                 {
-                    BoxOrder.ItemsSource = _context.Orders.ToList();
+                    BoxOrder.ItemsSource = _context.Order.ToList();
                 }
             }
         }
+
         private void Button_add_reques(object sender, RoutedEventArgs e)
         {
             AddOrder add = new AddOrder(_context);
             if (add.ShowDialog() == true)
             {
-                BoxOrder.ItemsSource = _context.Orders.ToList();
+                BoxOrder.ItemsSource = _context.Order.ToList();
             }
         }
         private void Buutton_delite_reques(object sender, RoutedEventArgs e)
         {
-            Order prod = BoxOrder.SelectedItem as Order;
-            if (prod != null)
+            Order order = BoxOrder.SelectedItem as Order;
+            if (order != null)
             {
-                _context.Orders.Remove(prod);
+                var orderDetail = _context.OrderDetails.FirstOrDefault(od => od.Order == order) ?? null;
+
+                var itemsOfOrder = _context.OrderDetails.Where(od => od.Order == order);
+                if (itemsOfOrder != null)
+                {
+                    _context.OrderDetails.RemoveRange(itemsOfOrder);
+                }
+
+                _context.Order.Remove(order);
                 _context.SaveChanges();
-                //var ordersArticles = _context.Orders.Where(q => q.E.Contains(prod)).FirstOrDefault();
-                //if (ordersArticles != null)
-                //{
-                //    _context.Orders.RemoveRange(ordersArticles);
-                //}
-                //Context.Orders.Remove(prod);
-                //Context.SaveChanges();
-                //BoxOrder.ItemsSource = Context.Orders.ToList();
+                BoxOrder.ItemsSource = _context.Order.ToList();
             }
             else
             {

@@ -16,42 +16,42 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WpfApp1.Data;
 using WpfApp1.Models;
-namespace WpfApp1.Windows.Product
+
+namespace WpfApp1.Windows.ProductWin
 {
     /// <summary>
     /// Логика взаимодействия для EditProductWindow.xaml
     /// </summary>
     public partial class EditProductWindow : Window
     {
-        private readonly string projPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        PaulDbBorkAsContext _context;
-        private Equipment _product;
-        private BitmapImage selectImage;
-        private string? imageName = null;
-
-        public EditProductWindow(PaulDbBorkAsContext context, Equipment product)
+        private readonly string _projPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        private ExampleDbContext _context;
+        private Product _product;
+        private BitmapImage _selectImage;
+        private string? _imageName = null;
+        public EditProductWindow(ExampleDbContext context, Product product)
         {
+            _context = context;
             InitializeComponent();
 
-            _context = context;
             _product = product;
             Load();
         }
 
         private void Load()
         {
-            BoxCategory.ItemsSource = _context.EquipmentTypes.ToList();
-            BoxCategory.SelectedItem = _product.Type;
-            BoxSupplier.ItemsSource = _context.Suppliers.ToList();
+            BoxCategory.ItemsSource = _context.ProductType.ToList();
+            BoxCategory.SelectedItem = _product.ProductType;
+            BoxSupplier.ItemsSource = _context.Supplier.ToList();
             BoxSupplier.SelectedItem = _product.Supplier;
-            BoxManufacturer.ItemsSource = _context.Manufacturers.ToList();
+            BoxManufacturer.ItemsSource = _context.Manufacturer.ToList();
             BoxManufacturer.SelectedItem = _product.Manufacturer;
-            BoxName.Text = _product.Name;
+            BoxName.Text = _product.Article;
             BoxDescription.Text = _product.Description;
             BoxDiscount.Text = _product.Discount.ToString();
-            BoxPrice.Text = _product.RentalCost.ToString();
-            BoxUnit.Text = _product.RentalUnit.ToString();
-            BoxCount.Text = _product.AvailableQuantity.ToString();
+            BoxPrice.Text = _product.Price.ToString();
+            BoxUnit.Text = _product.UnitOfMeasure.ToString();
+            BoxCount.Text = _product.Amount.ToString();
         }
 
         private void ButtonSaveProduct(object sender, RoutedEventArgs e)
@@ -67,30 +67,32 @@ namespace WpfApp1.Windows.Product
             }
             try
             {
-                _product.Name = BoxName.Text.Trim();
-                _product.Type = BoxCategory.SelectedItem as EquipmentType;
-                _product.Description = BoxDescription.Text.Trim();
+                _product.Article = BoxName.Text;
+                _product.ProductType = BoxCategory.SelectedItem as ProductType;
+                _product.Description = BoxDescription.Text;
                 _product.Manufacturer = BoxManufacturer.SelectedItem as Manufacturer;
                 _product.Supplier = BoxSupplier.SelectedItem as Supplier;
-                _product.RentalCost = int.Parse(BoxPrice.Text);
-                _product.RentalUnit = BoxUnit.Text;
-                _product.AvailableQuantity = int.Parse(BoxCount.Text);
+                _product.Price = int.Parse(BoxPrice.Text);
+                _product.UnitOfMeasure = BoxUnit.Text;
+                _product.Price = int.Parse(BoxCount.Text);
                 _product.Discount = int.Parse(BoxDiscount.Text);
-                if (imageName != null)
+                if (_imageName != null)
                 {
-                    _product.Photo = imageName;
+                    _product.Photo = _imageName;
                 }
 
                 _context.Entry(_product).State = EntityState.Modified;
                 _context.SaveChanges();
 
                 DialogResult = true;
+                return;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"не верный формат ввода {ex.Message}");
             }
         }
+
         private void ButtonExit(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
@@ -111,12 +113,13 @@ namespace WpfApp1.Windows.Product
                     return;
                 }
 
-                File.Copy(Path.Combine(projPath, "Images"), openFile.FileName);
+                File.Copy(Path.Combine(_projPath, "Images"), openFile.FileName);
 
-                selectImage = select;
-                imageName = openFile.SafeFileName;
-                BoxImage.Source = selectImage;
+                _selectImage = select;
+                _imageName = openFile.SafeFileName;
+                BoxImage.Source = _selectImage;
             }
         }
+
     }
 }

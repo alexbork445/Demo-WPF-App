@@ -5,31 +5,33 @@ namespace WpfApp1.Models;
 
 public partial class Product
 {
-    public int ProductId { get; set; }
+    public int Id { get; set; }
 
-    public string Article { get; set; } = null!;
+    public string? Article { get; set; }
 
-    public decimal Price { get; set; }
+    public decimal? Price { get; set; }
 
-    public int SupplierId { get; set; }
+    public int? SupplierId { get; set; }
 
-    public int ProducerId { get; set; }
+    public int? ManufacturerId { get; set; }
 
-    public int CategoryId { get; set; }
+    public int? ProductTypeId { get; set; }
 
-    public decimal? CurrentDiscount { get; set; }
+    public int? Discount { get; set; }
 
-    public int StockQuantity { get; set; }
+    public string? UnitOfMeasure { get; set; }
+
+    public int? Amount { get; set; }
 
     public string? Description { get; set; }
 
     public string? Photo { get; set; }
 
-    public virtual Category Category { get; set; } = null!;
+    public virtual Manufacturer? Manufacturer { get; set; }
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual ICollection<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
 
-    public virtual Producer Producer { get; set; } = null!;
+    public virtual ProductType? ProductType { get; set; }
 
-    public virtual Supplier Supplier { get; set; } = null!;
+    public virtual Supplier? Supplier { get; set; }
 }

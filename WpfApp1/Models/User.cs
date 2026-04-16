@@ -5,17 +5,17 @@ namespace WpfApp1.Models;
 
 public partial class User
 {
-    public int UserId { get; set; }
+    public int Id { get; set; }
 
-    public int RoleId { get; set; }
+    public int? RoleId { get; set; }
 
-    public string FullName { get; set; } = null!;
+    public string? Fullname { get; set; }
 
-    public string Login { get; set; } = null!;
+    public string? Login { get; set; }
 
-    public string Password { get; set; } = null!;
+    public string? Password { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order> Order { get; set; } = new List<Order>();
 
-    public virtual Role Role { get; set; } = null!;
+    public virtual Role? Role { get; set; }
 }

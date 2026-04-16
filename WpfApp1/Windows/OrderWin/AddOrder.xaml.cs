@@ -21,12 +21,12 @@ namespace WpfApp1.Windows.OrderWin
     /// </summary>
     public partial class AddOrder : Window
     {
-        private PaulDbContext _context;
-        public AddOrder(PaulDbContext context)
+        private ExampleDbContext _context;
+        public AddOrder(ExampleDbContext context)
         {
             InitializeComponent();
             _context = context;
-            BoxStatus.ItemsSource = _context.OrderStatuses.ToList();
+            BoxStatus.ItemsSource = _context.OrderStatus.ToList();
         }
         private void Button_add(object sender, RoutedEventArgs e)
         {
@@ -40,14 +40,13 @@ namespace WpfApp1.Windows.OrderWin
                     
                     Order order = new Order()
                     {
-
                         OrderDate = DateOnly.Parse(BoxDateOrder.Text.Trim()),
                         DeliveryDate = DateOnly.Parse(BoxDateDelivery.Text.Trim()),
-                        PickupCode = int.Parse(BoxArc.Text.Trim()),
-                        Address = _context.PickupPoints.FirstOrDefault(q => q.Address == BoxDelivary.Text.Trim()),
-                        Status = BoxStatus.SelectedItem as OrderStatus
+                        Code = BoxArc.Text.Trim(),
+                        PickupPoint = _context.PickupPoint.FirstOrDefault(q => q.Address == BoxDelivary.Text.Trim()),
+                        OrderStatus = BoxStatus.SelectedItem as OrderStatus
                     };
-                    _context.Orders.Add(order);
+                    _context.Order.Add(order);
                     _context.SaveChanges();
                     DialogResult = true;
                     return;

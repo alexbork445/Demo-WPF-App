@@ -23,16 +23,16 @@ namespace WpfApp1.Windows.OrderWin
     /// </summary>
     public partial class EditOrder : Window
     {
-        private PaulDbContext _context;
+        private ExampleDbContext _context;
         private Order _order;
-        public EditOrder(Order order, PaulDbContext context)
+        public EditOrder(Order order, ExampleDbContext context)
         {
             InitializeComponent();
             _context = context;
             PanelOrder.DataContext = order;
             _order = order;
-            BoxStatus.ItemsSource = context.OrderStatuses.ToList();
-            BoxStatus.SelectedItem = order.Status;
+            BoxStatus.ItemsSource = context.OrderStatus.ToList();
+            BoxStatus.SelectedItem = order.OrderStatus;
         }
         private void Button_save(object sender, RoutedEventArgs e)
         {
@@ -43,12 +43,11 @@ namespace WpfApp1.Windows.OrderWin
             {
                 try
                 {
-
                     _order.OrderDate = DateOnly.Parse(BoxDateOrder.Text.Trim());
                     _order.DeliveryDate = DateOnly.Parse(BoxDateDelivery.Text.Trim());
-                    _order.PickupCode = int.Parse(BoxArc.Text.Trim());
-                    _order.Address = _context.PickupPoints.FirstOrDefault(q => q.Address == BoxDelivary.Text.Trim());
-                    _order.Status = BoxStatus.SelectedItem as OrderStatus;
+                    _order.Code = BoxArc.Text.Trim();
+                    _order.PickupPoint = _context.PickupPoint.FirstOrDefault(q => q.Address == BoxDelivary.Text.Trim());
+                    _order.OrderStatus = BoxStatus.SelectedItem as OrderStatus;
 
                     _context.Entry(_order).State = EntityState.Modified;
                     _context.SaveChanges();

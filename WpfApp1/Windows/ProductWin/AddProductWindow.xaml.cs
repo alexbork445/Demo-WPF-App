@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,32 +14,30 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Microsoft.Win32;
-using System.IO;
 using WpfApp1.Data;
 using WpfApp1.Models;
 
-namespace WpfApp1.Windows.Product
+namespace WpfApp1.Windows.ProductWin
 {
     /// <summary>
     /// Логика взаимодействия для AddProductWindow.xaml
     /// </summary>
     public partial class AddProductWindow : Window
     {
-        private readonly string projPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        private string? imageName = null;
-        private BitmapImage selectImage;
-        private PaulDbBorkAsContext _context;
-        public AddProductWindow(PaulDbBorkAsContext context)
+        private readonly string _projPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        private string? _imageName = null;
+        private BitmapImage _selectImage;
+        private ExampleDbContext _context;
+        public AddProductWindow(ExampleDbContext context)
         {
             InitializeComponent();
             _context = context;
 
-            selectImage = new BitmapImage(new Uri(Path.Combine(projPath, "Images", "Defaults", "picture.png")));
-            BoxImage.Source = selectImage;
-            BoxCategory.ItemsSource = _context.EquipmentTypes.ToList();
-            BoxManufacturer.ItemsSource = _context.Manufacturers.ToList();
-            BoxSupplier.ItemsSource = _context.Suppliers.ToList();
+            _selectImage = new BitmapImage(new Uri(Path.Combine(_projPath, "Images", "Defaults", "picture.png")));
+            BoxImage.Source = _selectImage;
+            BoxCategory.ItemsSource = _context.ProductType.ToList();
+            BoxManufacturer.ItemsSource = _context.Manufacturer.ToList();
+            BoxSupplier.ItemsSource = _context.Supplier.ToList();
         }
 
         private void ButtonAddProduct(object sender, RoutedEventArgs e)
@@ -52,23 +53,24 @@ namespace WpfApp1.Windows.Product
             }
             try
             {
-                Equipment newProduct = new()
+                Product newProduct = new Product()
                 {
-                    Name = BoxName.Text.Trim(),
-                    Type = BoxCategory.SelectedItem as EquipmentType,
-                    Description = BoxDescription.Text.Trim(),
+                    Article = BoxName.Text,
+                    ProductType = BoxCategory.SelectedItem as ProductType,
+                    Description = BoxDescription.Text,
                     Manufacturer = BoxManufacturer.SelectedItem as Manufacturer,
                     Supplier = BoxSupplier.SelectedItem as Supplier,
-                    RentalCost = int.Parse(BoxPrice.Text),
-                    RentalUnit = BoxUnit.Text,
-                    AvailableQuantity = int.Parse(BoxCount.Text),
+                    Price = int.Parse(BoxPrice.Text),
+                    UnitOfMeasure = BoxUnit.Text,
+                    Amount = int.Parse(BoxCount.Text),
                     Discount = int.Parse(BoxDiscount.Text),
-                    Photo = imageName,
+                    Photo = _imageName,
                 };
-                _context.Equipment.Add(newProduct);
+                _context.Product.Add(newProduct);
                 _context.SaveChanges();
 
                 DialogResult = true;
+                return;
             }
             catch (Exception ex)
             {
@@ -79,6 +81,7 @@ namespace WpfApp1.Windows.Product
         private void ButtonExit(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+            return;
         }
 
         private void ButtonLoadImage(object sender, RoutedEventArgs e)
@@ -96,9 +99,9 @@ namespace WpfApp1.Windows.Product
                     return;
                 }
 
-                selectImage = select;
-                imageName = openFile.SafeFileName;
-                BoxImage.Source = selectImage;
+                _selectImage = select;
+                _imageName = openFile.SafeFileName;
+                BoxImage.Source = _selectImage;
             }
         }
     }

@@ -24,7 +24,7 @@
             <TextBlock FontSize="40" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center">
-                <Run Text="{Binding Discount}"/>
+                <Run Text="{Binding CurrentDiscount}"/>
                 <Run Text="%"/>
             </TextBlock>
         </Border>
@@ -34,9 +34,9 @@
                 Margin="5">
             <StackPanel Margin="5 0 0 0">
                 <TextBlock FontSize="25" FontWeight="Bold">
-                    <Run Text="{Binding Manufacturer.ManufacturerName}"/>
+                    <Run Text="{Binding Producer.ProducerName}"/>
                     <Run Text=" | "/>
-                    <Run Text="{Binding Name.Name}"/>
+                    <Run Text="{Binding Article}"/>
                 </TextBlock>
                 <TextBlock FontSize="18" TextWrapping="Wrap">
                     <Run Text="Описание товара: "/>
@@ -44,7 +44,7 @@
                 </TextBlock>
                 <TextBlock FontSize="18">
                     <Run Text="Производитель: "/>
-                    <Run Text="{Binding Manufacturer.ManufacturerName}"/>
+                    <Run Text="{Binding Producer.ProducerName}"/>
                 </TextBlock>
                 <TextBlock FontSize="18">
                     <Run Text="Поставщик: "/>
@@ -52,16 +52,16 @@
                 </TextBlock>
                 <TextBlock FontSize="18">
                     <Run Text="Цена: "/>
-                    <Run Text="{Binding RentalCost}" Name="BoxPrice"/>
+                    <Run Text="{Binding Price}" Name="BoxPrice"/>
                     <Run Name="BoxNewPrice"/>
                 </TextBlock>
                 <TextBlock FontSize="18">
                     <Run Text="Единица измерения: "/>
-                    <Run Text="{Binding RentalUnit}"/>
+                    <Run Text="{Binding UnitOfMeasurement}"/>
                 </TextBlock>
                 <TextBlock FontSize="18" Name="BoxCount">
                     <Run Text="Количество на складе: "/>
-                    <Run Text="{Binding AvailableQuantity}"/>
+                    <Run Text="{Binding StockQuantity}"/>
                 </TextBlock>
             </StackPanel>
         </Border>

@@ -5,25 +5,25 @@ namespace WpfApp1.Models;
 
 public partial class Order
 {
-    public int OrderId { get; set; }
+    public int Id { get; set; }
 
-    public DateOnly OrderDate { get; set; }
+    public DateOnly? OrderDate { get; set; }
 
     public DateOnly? DeliveryDate { get; set; }
 
-    public int AddressId { get; set; }
+    public int? PickupPointId { get; set; }
 
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
 
-    public int? PickupCode { get; set; }
+    public string? Code { get; set; }
 
-    public int StatusId { get; set; }
+    public int? OrderStatusId { get; set; }
 
-    public virtual PickupPoint Address { get; set; } = null!;
+    public virtual ICollection<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual OrderStatus? OrderStatus { get; set; }
 
-    public virtual OrderStatus Status { get; set; } = null!;
+    public virtual PickupPoint? PickupPoint { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; }
 }

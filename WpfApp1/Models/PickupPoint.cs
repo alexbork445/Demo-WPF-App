@@ -5,9 +5,9 @@ namespace WpfApp1.Models;
 
 public partial class PickupPoint
 {
-    public int AddressId { get; set; }
+    public int Id { get; set; }
 
-    public string Address { get; set; } = null!;
+    public string? Address { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order> Order { get; set; } = new List<Order>();
 }

@@ -15,7 +15,7 @@ using WpfApp1.Models;
 using WpfApp1.UserControllers;
 using WpfApp1.Windows;
 using WpfApp1.Windows.OrderWin;
-using WpfApp1.Windows.Product;
+using WpfApp1.Windows.ProductWin;
 
 namespace WpfApp1
 {
@@ -24,14 +24,14 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        private User currentUser;
-        private List<Equipment> products;
-        private readonly string projPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        private User _currentUser;
+        private List<Product> _products;
+        private readonly string _projPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
-        private string SortParam = "по возрастанию";
-        private string FiltParam = "все поставщики";
+        private string _sortParam = "по возрастанию";
+        private string _filtParam = "все поставщики";
 
-        private PaulDbBorkAsContext _context = new();
+        private ExampleDbContext _context = new();
 
         public MainWindow()
         {
@@ -42,21 +42,24 @@ namespace WpfApp1
             }
 
             InitializeComponent();
+            _products = _context.Product.ToList();
 
             BoxUserName.Text = "гость";
             PanelFind.Visibility = Visibility.Collapsed;
             PanelBottomButton.Visibility = Visibility.Collapsed;
-            DrawProductItem(products);
+            DrawProductItem(_products);
 
             if (Cookies.LoggedUser != null)
             {
-                BoxUserName.Text = Cookies.LoggedUser.FullName;
-                currentUser = Cookies.LoggedUser;
+                BoxUserName.Text = Cookies.LoggedUser.Fullname;
+                _currentUser = Cookies.LoggedUser;
                 DrawSuppliers();
 
                 if (Cookies.LoggedUser.Role.RoleName == "Администратор")
                 {
                     BoxProduct.MouseDoubleClick += BoxProduct_MouseDoubleClick;
+                    PanelFind.Visibility = Visibility.Visible;
+                    PanelBottomButton.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -78,19 +81,20 @@ namespace WpfApp1
             {
                 new Supplier()
                 {
-                    SupplierId = -1,
+                    Id = -1,
                     SupplierName = "все поставщики",
                 }
             };
-            suppliers.AddRange(_context.Suppliers.ToList());
+            suppliers.AddRange(_context.Supplier.ToList());
             ComboBoxItem.ItemsSource = suppliers;
         }
-        private void DrawProductItem(List<Equipment> product)
+
+        private void DrawProductItem(List<Product> product)
         {
             if (BoxProduct != null)
             {
                 BoxProduct.Items.Clear();
-                foreach (Equipment item in products)
+                foreach (Product item in product)
                 {
                     if (item != null)
                     {
@@ -101,16 +105,17 @@ namespace WpfApp1
                 }
             }
         }
+
         private void BoxProduct_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             ListBox list = sender as ListBox;
             ItemEquipment controller = list.SelectedItem as ItemEquipment;
-            Equipment product = controller.DataContext as Equipment;
+            Product product = controller.DataContext as Product;
             EditProductWindow edit = new(_context, product);
 
             if (edit.ShowDialog() == true)
             {
-                DrawProductItem(products);
+                DrawProductItem(_products);
             }
         }
 
@@ -119,7 +124,7 @@ namespace WpfApp1
             AddProductWindow add = new AddProductWindow(_context);
             if (add.ShowDialog() == true)
             {
-                DrawProductItem(products);
+                DrawProductItem(_products);
             }
         }
 
@@ -143,11 +148,11 @@ namespace WpfApp1
 
             if (radio.Content.ToString() == "по возрастанию")
             {
-                SortParam = "по возрастанию";
+                _sortParam = "по возрастанию";
             }
             else if (radio.Content.ToString() == "по убыванию")
             {
-                SortParam = "по убыванию";
+                _sortParam = "по убыванию";
             }
             Sort();
         }
@@ -157,58 +162,61 @@ namespace WpfApp1
             ComboBox box = sender as ComboBox;
             if (box.SelectedItem != null)
             {
-                FiltParam = box.SelectedItem.ToString();
+                _filtParam = box.SelectedItem.ToString();
             }
             Sort();
         }
 
         public void Sort()
         {
-            products = _context.Equipment.Include(q => q.Supplier)
+            _products = _context.Product
+                .Include(q => q.Supplier)
                 .Include(q => q.Manufacturer)
-                .Include(q => q.Name)
-                .Include(q => q.Type)
+                .Include(q => q.ProductType)
                 .ToList();
 
-            products = products.Where(q =>
+            _products = _products.Where(q =>
                 (q.Description?.Contains(BoxFind.Text.Trim()) ?? false)
                 || (q.Article?.Contains(BoxFind.Text.Trim()) ?? false)
-                || (q.Name?.Contains(BoxFind.Text.Trim()) ?? false)
-                ).Where(q => q.Supplier.SupplierName == FiltParam
-                || FiltParam == "все поставщики").ToList();
+                ).Where(q => q.Supplier.SupplierName == _filtParam
+                || _filtParam == "все поставщики").ToList();
 
-            if (SortParam == "по возрастанию")
+            if (_sortParam == "по возрастанию")
             {
-                products = products.OrderBy(q => q.AvailableQuantity).ToList();
+                _products = _products.OrderBy(q => q.Amount).ToList();
             }
-            else if (SortParam == "по убыванию")
+            else if (_sortParam == "по убыванию")
             {
-                products = products.OrderByDescending(q => q.AvailableQuantity).ToList();
+                _products = _products.OrderByDescending(q => q.Amount).ToList();
             }
 
-            DrawProductItem(products);
+            DrawProductItem(_products);
         }
 
         private void Buutton_delite_product(object sender, RoutedEventArgs e)
         {
-            Equipment prod = (Equipment)(BoxProduct.SelectedItem as ItemEquipment).DataContext;
+            Product prod = (Product)(BoxProduct.SelectedItem as ItemEquipment).DataContext;
             if (prod != null)
             {
-                Order? order = _context.Orders.FirstOrDefault(q => q.Equipment.EquipmentId == prod.EquipmentId);
+                var order = _context.OrderDetails.FirstOrDefault(q => q.ProductId == prod.Id);
 
                 if (order != null)
                 {
                     MessageBox.Show("Продукт не можен быть удален, он участвует в заказе");
                     return;
                 }
-                _context.Equipment.Remove(prod);
+                _context.Product.Remove(prod);
                 _context.SaveChanges();
-                products = _context.Equipment.ToList();
-                DrawProductItem(products);
+                _products = _context.Product.ToList();
+                DrawProductItem(_products);
                 if (prod.Photo != null)
                 {
-                    File.Delete(Path.Combine(projPath, "Images", prod.Photo));
+                    File.Delete(Path.Combine(_projPath, "Images", prod.Photo));
                 }
+            }
+            else
+            {
+                MessageBox.Show("Выберете продукт для удаления");
             }
         }
     }

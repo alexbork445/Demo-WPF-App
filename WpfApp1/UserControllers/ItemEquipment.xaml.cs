@@ -24,7 +24,7 @@ namespace WpfApp1.UserControllers
     {
         private string _projPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
         
-        public ItemEquipment(Equipment equipment)
+        public ItemEquipment(Product equipment)
         {
             InitializeComponent();
             DataContext = equipment;
@@ -36,7 +36,7 @@ namespace WpfApp1.UserControllers
                 BitmapImage bitmap = new(uri);
                 BoxImage.Source = bitmap;
             }
-            catch (Exception ex)//любая ошибка с изобращением
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 BitmapImage bitmap = new(new Uri(Path.Combine(_projPath, "Images", "Defaults", "picture.png")));
@@ -51,11 +51,10 @@ namespace WpfApp1.UserControllers
             {
                 BoxPrice.Foreground = Brushes.Red;
                 BoxPrice.TextDecorations.Add(TextDecorations.Strikethrough);
-
-                BoxNewPrice.Text = (equipment.RentalCost * (1 - equipment.Discount / (decimal)100.0)).ToString();
+                BoxNewPrice.Text = (equipment.Price * (1 - equipment.Discount.Value / (decimal)100.0)).ToString();
             }
 
-            if (equipment.AvailableQuantity == 0)
+            if (equipment.Amount == 0)
             {
                 BoxCount.Foreground = Brushes.Blue;
             }

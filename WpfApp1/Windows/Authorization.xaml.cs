@@ -22,8 +22,8 @@ namespace WpfApp1.Windows
     /// </summary>
     public partial class Authorization : Window
     {
-        private PaulDbBorkAsContext _context;
-        public Authorization(PaulDbBorkAsContext context)
+        private ExampleDbContext _context;
+        public Authorization(ExampleDbContext context)
         {
             InitializeComponent();
             _context = context;
@@ -33,7 +33,9 @@ namespace WpfApp1.Windows
         {
             if (!string.IsNullOrWhiteSpace(BoxLogin.Text) && !string.IsNullOrWhiteSpace(BoxPassword.Text))
             {
-                User user = _context.Users.Include(u => u.Role).FirstOrDefault(q => q.Login == BoxLogin.Text.Trim() && q.Password == BoxPassword.Text.Trim());
+                User user = _context.User.Include(u => u.Role)
+                    .FirstOrDefault(q => q.Login == BoxLogin.Text.Trim() 
+                    && q.Password == BoxPassword.Text.Trim());
                 if (user != null)
                 {
                     Cookies.LoggedUser = user;
