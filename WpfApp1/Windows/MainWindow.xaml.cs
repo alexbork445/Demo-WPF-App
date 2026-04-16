@@ -124,7 +124,7 @@ namespace WpfApp1
             AddProductWindow add = new AddProductWindow(_context);
             if (add.ShowDialog() == true)
             {
-                DrawProductItem(_products);
+                DrawProductItem(_context.Product.ToList());
             }
         }
 
