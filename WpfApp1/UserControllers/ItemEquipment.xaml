@@ -24,7 +24,7 @@
             <TextBlock FontSize="40" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center">
-                <Run Text="{Binding CurrentDiscount}"/>
+                <Run Text="{Binding Discount}"/>
                 <Run Text="%"/>
             </TextBlock>
         </Border>
@@ -34,7 +34,7 @@
                 Margin="5">
             <StackPanel Margin="5 0 0 0">
                 <TextBlock FontSize="25" FontWeight="Bold">
-                    <Run Text="{Binding Producer.ProducerName}"/>
+                    <Run Text="{Binding Manufacturer.ManufacturerName}"/>
                     <Run Text=" | "/>
                     <Run Text="{Binding Article}"/>
                 </TextBlock>
@@ -44,7 +44,7 @@
                 </TextBlock>
                 <TextBlock FontSize="18">
                     <Run Text="Производитель: "/>
-                    <Run Text="{Binding Producer.ProducerName}"/>
+                    <Run Text="{Binding Manufacturer.ManufacturerName}"/>
                 </TextBlock>
                 <TextBlock FontSize="18">
                     <Run Text="Поставщик: "/>
@@ -57,11 +57,11 @@
                 </TextBlock>
                 <TextBlock FontSize="18">
                     <Run Text="Единица измерения: "/>
-                    <Run Text="{Binding UnitOfMeasurement}"/>
+                    <Run Text="{Binding UnitOfMeasure}"/>
                 </TextBlock>
                 <TextBlock FontSize="18" Name="BoxCount">
                     <Run Text="Количество на складе: "/>
-                    <Run Text="{Binding StockQuantity}"/>
+                    <Run Text="{Binding Amount}"/>
                 </TextBlock>
             </StackPanel>
         </Border>
