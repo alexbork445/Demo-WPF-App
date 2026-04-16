@@ -72,10 +72,10 @@ namespace WpfApp1.Windows.ProductWin
                 _product.Description = BoxDescription.Text;
                 _product.Manufacturer = BoxManufacturer.SelectedItem as Manufacturer;
                 _product.Supplier = BoxSupplier.SelectedItem as Supplier;
-                _product.Price = int.Parse(BoxPrice.Text);
                 _product.UnitOfMeasure = BoxUnit.Text;
-                _product.Price = int.Parse(BoxCount.Text);
+                _product.Price = int.Parse(BoxPrice.Text.Trim());
                 _product.Discount = int.Parse(BoxDiscount.Text);
+                _product.Amount = int.Parse(BoxCount.Text.Trim());
                 if (_imageName != null)
                 {
                     _product.Photo = _imageName;
