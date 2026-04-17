@@ -113,7 +113,14 @@ namespace WpfApp1.Windows.ProductWin
                     return;
                 }
 
-                File.Copy(openFile.FileName, Path.Combine(_projPath, "Images", Path.GetFileName(openFile.FileName)));
+                try
+                {
+                    File.Copy(openFile.FileName, Path.Combine(_projPath, "Images", Path.GetFileName(openFile.FileName)));
+                }
+                catch(Exception ex)
+                {
+                    
+                }
 
                 _selectImage = select;
                 _imageName = openFile.SafeFileName;
