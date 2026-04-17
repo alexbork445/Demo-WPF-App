@@ -70,9 +70,9 @@ namespace WpfApp1
 
         private void Button_exit_user(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
             this.Close();
-            mainWindow.Show();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.ShowDialog();
         }
 
         public void DrawSuppliers()

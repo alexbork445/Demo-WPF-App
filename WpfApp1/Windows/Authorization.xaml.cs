@@ -27,6 +27,7 @@ namespace WpfApp1.Windows
         {
             InitializeComponent();
             _context = context;
+            Cookies.LoggedUser = null;
         }
 
         private void Button_authorization(object sender, RoutedEventArgs e)
