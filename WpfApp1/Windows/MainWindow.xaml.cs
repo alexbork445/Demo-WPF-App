@@ -212,7 +212,11 @@ namespace WpfApp1
                 Sort();
                 if (prod.Photo != null)
                 {
-                    File.Delete(Path.Combine(_projPath, "Images", prod.Photo));
+                    try
+                    {
+                        File.Delete(Path.Combine(_projPath, "Images", prod.Photo));
+                    }
+                    catch (Exception ex) {}
                 }
             }
             else
