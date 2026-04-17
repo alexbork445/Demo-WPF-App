@@ -105,6 +105,7 @@ namespace WpfApp1
                     }
                 }
             }
+            Sort();
         }
 
         private void BoxProduct_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
