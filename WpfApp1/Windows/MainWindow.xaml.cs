@@ -47,7 +47,7 @@ namespace WpfApp1
             BoxUserName.Text = "гость";
             PanelFind.Visibility = Visibility.Collapsed;
             PanelBottomButton.Visibility = Visibility.Collapsed;
-            DrawProductItem(_products);
+            Sort();
 
             if (Cookies.LoggedUser != null)
             {
@@ -104,7 +104,6 @@ namespace WpfApp1
                     }
                 }
             }
-            Sort();
         }
 
         private void BoxProduct_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -116,7 +115,7 @@ namespace WpfApp1
 
             if (edit.ShowDialog() == true)
             {
-                DrawProductItem(_products);
+                Sort();
             }
         }
 
@@ -125,7 +124,7 @@ namespace WpfApp1
             AddProductWindow add = new AddProductWindow(_context);
             if (add.ShowDialog() == true)
             {
-                DrawProductItem(_context.Product.ToList());
+                Sort();
             }
         }
 
@@ -191,7 +190,7 @@ namespace WpfApp1
                 _products = _products.OrderByDescending(q => q.Amount).ToList();
             }
 
-            DrawProductItem(_products);
+            Sort();
         }
 
         private void Buutton_delite_product(object sender, RoutedEventArgs e)
@@ -209,7 +208,7 @@ namespace WpfApp1
                 _context.Product.Remove(prod);
                 _context.SaveChanges();
                 _products = _context.Product.ToList();
-                DrawProductItem(_products);
+                Sort();
                 if (prod.Photo != null)
                 {
                     File.Delete(Path.Combine(_projPath, "Images", prod.Photo));
