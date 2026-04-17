@@ -107,9 +107,6 @@ namespace WpfApp1.Windows.ProductWin
                 Uri uri = new Uri(openFile.FileName);
 
                 BitmapImage select = new(uri);
-                select.BeginInit();
-                select.CacheOption = BitmapCacheOption.OnLoad;
-                select.EndInit();
                 if (select.Width > 512 || select.Height > 512)
                 {
                     MessageBox.Show("Размеры изображения имеют не верный формат");
