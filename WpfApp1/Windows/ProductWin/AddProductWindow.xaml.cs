@@ -48,11 +48,13 @@ namespace WpfApp1.Windows.ProductWin
                 string.IsNullOrWhiteSpace(BoxPrice.Text) ||
                 string.IsNullOrWhiteSpace(BoxUnit.Text))
             {
-                MessageBox.Show("Заполните все поля");
+                MessageBox.Show("Заполните все поля", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             try
             {
+                if (int.Parse(BoxPrice.Text) < 0) throw new Exception("Цена не может быть отрицательной");
+                if (int.Parse(BoxCount.Text) < 0) throw new Exception("Количество не может быть отрицательным");
                 Product newProduct = new Product()
                 {
                     Article = BoxName.Text,
@@ -74,7 +76,7 @@ namespace WpfApp1.Windows.ProductWin
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"не верный формат ввода {ex.Message}");
+                MessageBox.Show($"Не верный формат ввода:\n{ex.Message}", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -95,7 +97,7 @@ namespace WpfApp1.Windows.ProductWin
                 BitmapImage select = new(uri);
                 if (select.Width > 400 || select.Height > 300)
                 {
-                    MessageBox.Show("Размеры изображения имеют не верный формат");
+                    MessageBox.Show("Размеры изображения имеют не верный формат", "Ошибка изображения", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 

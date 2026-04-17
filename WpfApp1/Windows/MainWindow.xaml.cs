@@ -70,9 +70,11 @@ namespace WpfApp1
 
         private void Button_exit_user(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            this.Hide();
             MainWindow mainWindow = new MainWindow();
+            this.Close();
             mainWindow.ShowDialog();
+            
         }
 
         public void DrawSuppliers()
@@ -203,7 +205,7 @@ namespace WpfApp1
 
                 if (order != null)
                 {
-                    MessageBox.Show("Продукт не можен быть удален, он участвует в заказе");
+                    MessageBox.Show("Продукт не можен быть удален, он участвует в заказе", "Ошибка удаления", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
                 _context.Product.Remove(prod);
@@ -221,7 +223,7 @@ namespace WpfApp1
             }
             else
             {
-                MessageBox.Show("Выберете продукт для удаления");
+                MessageBox.Show("Выберете продукт для удаления", "Ошибка удаления", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }

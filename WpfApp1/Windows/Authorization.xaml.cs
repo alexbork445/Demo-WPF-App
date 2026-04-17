@@ -45,12 +45,12 @@ namespace WpfApp1.Windows
                 }
                 else
                 {
-                    MessageBox.Show("Пользователь не найден");
+                    MessageBox.Show("Пользователь не найден", "Ошибка входа", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Заполните все поля");
+                MessageBox.Show("Заполните все поля", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

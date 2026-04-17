@@ -8,11 +8,11 @@
         Title="Авторизация" Height="250" Width="300">
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
         <StackPanel Orientation="Horizontal" Margin=" 5">
-            <TextBox Width="120" Name="BoxLogin"/>
+            <TextBox Width="120" Name="BoxLogin" Text="klh7pi4rcbtz@gmail.com"/>
             <TextBlock Text="Логин" Margin="5 0 0 0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin=" 5">
-            <TextBox Width="120" Name="BoxPassword"/>
+            <TextBox Width="120" Name="BoxPassword" Text="2L6KZG"/>
             <TextBlock Text="Пароль" Margin="5 0 0 0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin=" 5">

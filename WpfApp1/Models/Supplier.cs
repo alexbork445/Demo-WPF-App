@@ -10,4 +10,9 @@ public partial class Supplier
     public string? SupplierName { get; set; }
 
     public virtual ICollection<Product> Product { get; set; } = new List<Product>();
+
+    override public string ToString()
+    {
+        return SupplierName;
+    }
 }

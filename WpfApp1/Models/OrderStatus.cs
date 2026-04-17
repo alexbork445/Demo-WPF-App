@@ -10,4 +10,8 @@ public partial class OrderStatus
     public string? StatusName { get; set; }
 
     public virtual ICollection<Order> Order { get; set; } = new List<Order>();
+    public override string ToString()
+    {
+        return StatusName;
+    }
 }

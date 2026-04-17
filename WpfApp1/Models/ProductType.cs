@@ -10,4 +10,8 @@ public partial class ProductType
     public string? TypeName { get; set; }
 
     public virtual ICollection<Product> Product { get; set; } = new List<Product>();
+    override public string ToString()
+    {
+        return TypeName;
+    }
 }

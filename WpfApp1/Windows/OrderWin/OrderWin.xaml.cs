@@ -33,7 +33,7 @@ namespace WpfApp1.Windows.OrderWin
                 .Include(q => q.PickupPoint)
                 .Include(q => q.OrderStatus)
                 .ToList();
-            BoxOrder.ItemsSource = _context.Order.ToList();
+            BoxOrder.ItemsSource = orders;
 
             if (Cookies.LoggedUser.Role.RoleName == "Администратор")
             {
@@ -55,7 +55,10 @@ namespace WpfApp1.Windows.OrderWin
 
                 if (edit.ShowDialog() == true)
                 {
-                    BoxOrder.ItemsSource = _context.Order.ToList();
+                    BoxOrder.ItemsSource = _context.Order
+                        .Include(q => q.PickupPoint)
+                        .Include(q => q.OrderStatus)
+                        .ToList();
                 }
             }
         }
@@ -87,7 +90,7 @@ namespace WpfApp1.Windows.OrderWin
             }
             else
             {
-                MessageBox.Show("Выберете заказ для удаления");
+                MessageBox.Show("Выберете заказ для удаления", "Ошибка удаления заказа", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         private void Button_exit(object sender, RoutedEventArgs e)

@@ -10,4 +10,8 @@ public partial class PickupPoint
     public string? Address { get; set; }
 
     public virtual ICollection<Order> Order { get; set; } = new List<Order>();
+    public override string ToString()
+    {
+        return Address;
+    }
 }

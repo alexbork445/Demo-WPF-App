@@ -53,7 +53,7 @@ namespace WpfApp1.Windows.OrderWin
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Ошибка добавления заказа", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }

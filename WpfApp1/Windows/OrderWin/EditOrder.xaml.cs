@@ -25,14 +25,19 @@ namespace WpfApp1.Windows.OrderWin
     {
         private ExampleDbContext _context;
         private Order _order;
+        public Order NewOrder { get; set; }
         public EditOrder(Order order, ExampleDbContext context)
         {
-            InitializeComponent();
             _context = context;
-            PanelOrder.DataContext = order;
             _order = order;
+            InitializeComponent();
             BoxStatus.ItemsSource = context.OrderStatus.ToList();
+            BoxArc.Text = order.Code;
+            BoxDateOrder.Text = order.OrderDate.ToString();
+            BoxDateDelivery.Text = order.DeliveryDate.ToString();
             BoxStatus.SelectedItem = order.OrderStatus;
+            BoxDelivary.ItemsSource = context.PickupPoint.ToList();
+            BoxDelivary.SelectedItem = order.PickupPoint;
         }
         private void Button_save(object sender, RoutedEventArgs e)
         {
@@ -43,22 +48,25 @@ namespace WpfApp1.Windows.OrderWin
             {
                 try
                 {
-                    _order.OrderDate = DateOnly.Parse(BoxDateOrder.Text.Trim());
-                    _order.DeliveryDate = DateOnly.Parse(BoxDateDelivery.Text.Trim());
                     _order.Code = BoxArc.Text.Trim();
-                    _order.PickupPoint = _context.PickupPoint.FirstOrDefault(q => q.Address == BoxDelivary.Text.Trim());
-                    _order.OrderStatus = BoxStatus.SelectedItem as OrderStatus;
-
-                    _context.Entry(_order).State = EntityState.Modified;
-                    _context.SaveChanges();
-
-                    DialogResult = true;
+                    _order.OrderStatus = (OrderStatus)BoxStatus.SelectedItem;
+                    _order.PickupPoint = (PickupPoint)BoxDelivary.SelectedItem;
+                    _order.OrderDate = DateOnly.FromDateTime(DateTime.Parse(BoxDateOrder.Text.Trim()));
+                    _order.DeliveryDate = DateOnly.FromDateTime(DateTime.Parse(BoxDateDelivery.Text.Trim()));
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка редактирования заказа", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+
+                _context.SaveChanges();
+                DialogResult = true;
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Заполните все поля", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
