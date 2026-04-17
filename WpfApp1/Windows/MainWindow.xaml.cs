@@ -190,7 +190,7 @@ namespace WpfApp1
                 _products = _products.OrderByDescending(q => q.Amount).ToList();
             }
 
-            Sort();
+            DrawProductItem(_products);
         }
 
         private void Buutton_delite_product(object sender, RoutedEventArgs e)
