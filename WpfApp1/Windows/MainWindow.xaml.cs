@@ -178,7 +178,8 @@ namespace WpfApp1
             _products = _products.Where(q =>
                 (q.Description?.Contains(BoxFind.Text.Trim()) ?? false)
                 || (q.Article?.Contains(BoxFind.Text.Trim()) ?? false)
-                ).Where(q => q.Supplier.SupplierName == _filtParam
+                || (q.Manufacturer?.ManufacturerName?.Contains(BoxFind.Text.Trim()) ?? false)
+                ).Where(q => q.Supplier?.SupplierName == _filtParam
                 || _filtParam == "все поставщики").ToList();
 
             if (_sortParam == "по возрастанию")
